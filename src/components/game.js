@@ -32,7 +32,7 @@ render() {
         <div>
             <Header />
             <GuessSection feedback="Make your guess!" onChange={number => this.saveInputNumber(number)} onSubmit={number => this.handleFormSubmit(this.state.inputNumber)}/>
-            <GuessCount count={3} />
+            <GuessCount count={this.state.totalGuesses.length} />
             <GuessList guesses={[this.state.totalGuesses]} />
         </div>
     );
