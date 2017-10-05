@@ -27,36 +27,41 @@ resetGame() {
        randomNumber: Math.floor((Math.random() * 100) + 1),
        status: "Make your guess!",
    })
-   document.getElementById("guessButton").disabled = false;
-   document.getElementById('userGuess').value = ""
 }
 
 saveInputNumber(number){
-    this.setState({
-        inputNumber: number
-    })
-}
-
-handleFormSubmit(number){
-    this.setState({
-        totalGuesses: [...this.state.totalGuesses, number]
-    })
-    if (parseInt(this.state.inputNumber) === this.state.randomNumber) {
+    console.log(parseInt(number))
+    if (isNaN((number))) {
         this.setState({
-            status: "You Win!"
-        })
-        document.getElementById("guessButton").disabled = true;    
-    }
-    else if(parseInt(this.state.inputNumber) <= (this.state.randomNumber + 10) && (parseInt(this.state.inputNumber) >= this.state.randomNumber - 10)) {
-        this.setState({
-            status: "Hot"
+            status: "Please Input a Number",
+            inputNumber: ""
         })
     }
     else {
         this.setState({
-            status: "Cold"
+            inputNumber: number,
+            status: "Make your guess!"
         })
+    } 
+}
+
+handleFormSubmit(number){
+    let currentStatus;
+
+    if (parseInt(this.state.inputNumber) === this.state.randomNumber) {
+        currentStatus= "You Win!"
     }
+    else if(parseInt(this.state.inputNumber) <= (this.state.randomNumber + 10) && (parseInt(this.state.inputNumber) >= this.state.randomNumber - 10)) {
+        currentStatus= "Hot"
+    }
+    else {
+        currentStatus= "Cold"
+    }
+    this.setState({
+        totalGuesses: [...this.state.totalGuesses, number],
+        status: currentStatus,
+        inputNumber: ""
+    })
 }
 
 help() {
@@ -71,11 +76,12 @@ noHelp() {
     })
 }
 
+
 render() {
     return (
         <div>
             <Header infoModalDisplay={this.state.help} closeModalDisplay={() => this.noHelp()} onResetClick={() => this.resetGame()} onHelpClick={() => this.help()} />
-            <GuessSection feedback={this.state.status} onChange={number => this.saveInputNumber(number)} onSubmit={number => this.handleFormSubmit(this.state.inputNumber)}/>
+            <GuessSection statusValue={this.state.status} numberValue={this.state.inputNumber} feedback={this.state.status} onChange={number => this.saveInputNumber(number)} onSubmit={number => this.handleFormSubmit(this.state.inputNumber)}/>
             <GuessCount count={this.state.totalGuesses.length} />
             <GuessList guesses={this.state.totalGuesses} />
         </div>
