@@ -14,7 +14,8 @@ export default class Game extends React.Component{
                 inputNumber: "",
                 totalGuesses: [],
                 randomNumber: Math.floor((Math.random() * 100) + 1),
-                status: "Make your guess!"
+                status: "Make your guess!",
+                help: false
             }       
     }
 
@@ -24,8 +25,10 @@ resetGame() {
        inputNumber: "",
        totalGuesses: [],
        randomNumber: Math.floor((Math.random() * 100) + 1),
-       status: "Make your guess!"
+       status: "Make your guess!",
    })
+   document.getElementById("guessButton").disabled = false;
+   document.getElementById('userGuess').value = ""
 }
 
 saveInputNumber(number){
@@ -42,6 +45,7 @@ handleFormSubmit(number){
         this.setState({
             status: "You Win!"
         })
+        document.getElementById("guessButton").disabled = true;    
     }
     else if(parseInt(this.state.inputNumber) <= (this.state.randomNumber + 10) && (parseInt(this.state.inputNumber) >= this.state.randomNumber - 10)) {
         this.setState({
@@ -55,13 +59,25 @@ handleFormSubmit(number){
     }
 }
 
+help() {
+    this.setState({
+        help: true
+    })
+}
+
+noHelp() {
+    this.setState({
+        help: false
+    })
+}
+
 render() {
     return (
         <div>
-            <Header onClick={() => this.resetGame()}/>
+            <Header infoModalDisplay={this.state.help} closeModalDisplay={() => this.noHelp()} onResetClick={() => this.resetGame()} onHelpClick={() => this.help()} />
             <GuessSection feedback={this.state.status} onChange={number => this.saveInputNumber(number)} onSubmit={number => this.handleFormSubmit(this.state.inputNumber)}/>
             <GuessCount count={this.state.totalGuesses.length} />
-            <GuessList guesses={[this.state.totalGuesses]} />
+            <GuessList guesses={this.state.totalGuesses} />
         </div>
     );
     }   

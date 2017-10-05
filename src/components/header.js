@@ -8,8 +8,8 @@ import './header.css';
 export default function Header(props) {
     return (
         <header>
-            <TopNav onClick={props.onClick}/>
-            {/* <InfoModal /> */}
+            <TopNav onBlahClick={props.onResetClick} onHelpClick={props.onHelpClick}/>
+            {props.infoModalDisplay ? <InfoModal onHelpClick={props.onHelpClick} closeModalDisplay={props.closeModalDisplay}/> : ""}
             <h1>HOT or COLD</h1>
         </header>
     );
