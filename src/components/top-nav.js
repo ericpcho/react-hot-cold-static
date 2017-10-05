@@ -12,7 +12,8 @@ export default function TopNav(props) {
                     </a>
                 </li>
                 <li>
-                    <a className="new" href="#">
+                    <a className="new" href="#" onClick={event => 
+                        {props.onClick()}}>
                         + New Game
                     </a>
                 </li>
