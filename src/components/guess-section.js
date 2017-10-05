@@ -4,17 +4,12 @@ import GuessForm from './guess-form';
 
 import './guess-section.css';
 
-export default class GuessSection extends React.Component() {
-    constructor(props) {
-        super(props)
-    }
+export default function GuessSection(props) {
 
-    render(){
         return (
             <section>
                 <h2 id="feedback">{props.feedback}</h2>
-                <GuessForm onSubmit={this}/>
+                <GuessForm value={props.value} onChange={props.onChange()} onSubmit={props.onSubmit()}/>
             </section>
         );
     }
-}
